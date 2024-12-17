@@ -60,7 +60,7 @@ export const ApeTestItemExampleRender = observer(function (props: { example: Aud
                 position: 'absolute',
                 top: '60px',
                 width: 'calc(100% - 16px)',
-                zIndex: i + 1 // Add zIndex to prevent overlapping
+                zIndex: randomAudios.length - i
               }}>
               <ApeAudioButton ref={refs[i]} audio={v} audioNum={i + 1}
                 onPlay={handlePlay} onPause={handlePause}
