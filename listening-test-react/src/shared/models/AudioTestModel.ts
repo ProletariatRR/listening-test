@@ -31,6 +31,7 @@ export interface AudioExampleSettingsModel {
 
 export interface AudioFileModel extends BasicFileModel {
   settings?: AudioSettings;
+  comment?: string;
 }
 
 export interface AudioSettings {

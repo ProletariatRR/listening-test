@@ -59,6 +59,7 @@ class ApeTestCsvDownload(BaseHandler):
 
                     # Additional row for medias' names
                     audio_names = ['', 'Sound filename']
+                    audio_comments = ['', 'Comments']  # New row for comments
                     # Questions header. Examples header: Example and Comment
                     header_list = ['Name', 'Date']
                     for x in row['items']:
@@ -70,14 +71,18 @@ class ApeTestCsvDownload(BaseHandler):
                                 if 'example' in x and 'medias' in x['example']:
                                     header_list += [''] * (len(x['example']['medias']) - 1)
                                     audio_names += [a['filename'] for a in x['example']['medias']]
+                                    audio_comments += [a.get('comment', '') for a in x['example']['medias']]  # Add comments
                             else:
                                 audio_names.append('')
+                                audio_comments.append('')  # Add empty comment
                             # Check if it is timed
                             if check_is_timed(row):
                                 header_list.append('Time (s)')
                                 audio_names.append('')
+                                audio_comments.append('')  # Add empty comment
                     writer.writerow(audio_names)
                     writer.writerow(header_list)
+                    writer.writerow(audio_comments)  # Write comments row
                     is_header_writen = True
 
                 # Build three different lists of data

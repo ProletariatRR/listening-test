@@ -2,6 +2,7 @@
 
 /dist
 /venv
+/env
 /.idea
 __pycache__
 /static2
