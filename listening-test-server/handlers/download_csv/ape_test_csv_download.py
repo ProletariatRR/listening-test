@@ -81,8 +81,8 @@ class ApeTestCsvDownload(BaseHandler):
                                 audio_names.append('')
                                 audio_comments.append('')  # Add empty comment
                     writer.writerow(audio_names)
-                    writer.writerow(header_list)
                     writer.writerow(audio_comments)  # Write comments row
+                    writer.writerow(header_list)
                     is_header_writen = True
 
                 # Build three different lists of data
