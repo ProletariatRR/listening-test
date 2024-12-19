@@ -54,22 +54,33 @@ export const ApeTestItemExampleRender = observer(function (props: { example: Aud
         </Box>
 
         {randomAudios.map((v, i) => (
-          <React.Fragment key={i}>
-            <Box
-              style={{
-                position: 'absolute',
-                top: '60px',
-                width: 'calc(100% - 16px)',
-                zIndex: randomAudios.length - i
-              }}>
-              <ApeAudioButton ref={refs[i]} audio={v} audioNum={i + 1}
-                onPlay={handlePlay} onPause={handlePause}
+          <Box
+            key={i}
+            style={{
+              position: 'absolute',
+              top: '60px',
+              width: 'calc(100% - 16px)',
+              zIndex: randomAudios.length - i,
+              pointerEvents: 'none'  // Box 不拦截事件
+            }}>
+            <div style={{
+              position: 'relative',
+              height: '56px',
+              pointerEvents: 'none'  // div 也不拦截事件
+            }}>
+              <ApeAudioButton
+                ref={refs[i]}
+                audio={v}
+                audioNum={i + 1}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                onTimeUpdate={i === 0 ? onTimeUpdate ? onTimeUpdate : handleTimeUpdate : undefined}
                 onEnded={i === 0 ? handleEnded : undefined}
-                onTimeUpdate={i === 0 ? onTimeUpdate ? onTimeUpdate : handleTimeUpdate : undefined}>
+              >
                 {i + 1}
               </ApeAudioButton>
-            </Box>
-          </React.Fragment>
+            </div>
+          </Box>
         ))}
 
         {randomAudios.map((v, i) => (
@@ -127,29 +138,24 @@ const HiddenSlider = styled(Slider)(({ theme, isActive, displayNumber }: {
   isActive: boolean,
   displayNumber: number,
 }) => ({
-  pointerEvents: displayNumber === 0 ? 'none' : 'inherit',
-  // zIndex: 1,
   padding: 0,
   height: 0,
-  zIndex: isActive ? 999 : (displayNumber === 0 ? displayNumber : 999 - displayNumber),
+  zIndex: displayNumber === 0 ? 1 : (isActive ? 2000 : 2000 - displayNumber),
+  pointerEvents: 'auto',  // 确保滑块可以接收事件
   '& .MuiSlider-track': {
     height: '0px',
   },
   '& .MuiSlider-rail': {
     visibility: displayNumber !== 0 ? 'hidden' : 'inherit',
   },
-
-
   '& .MuiSlider-thumb': {
     backgroundColor: isActive ? theme.palette.primary.main : theme.palette.common.white,
     border: `1px solid ${theme.palette.primary.main}`,
     height: 56,
     borderRadius: 3,
     transform: 'translateY(-38px)',
-    // display: 'none' ,
-
-
     visibility: displayNumber === 0 ? 'hidden' : 'inherit',
+    pointerEvents: 'auto',  // 确保滑块手柄可以接收事件
     '&:before': {
       content: `"${displayNumber}"`,
       color: !isActive ? theme.palette.primary.main : theme.palette.common.white,
