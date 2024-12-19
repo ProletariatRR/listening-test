@@ -59,29 +59,33 @@ class ApeTestCsvDownload(BaseHandler):
 
                     # Additional row for medias' names
                     audio_names = ['', 'Sound filename']
-                    audio_comments = ['', 'Comments']  # New row for comments
+                    # audio_comments = ['', 'Comments']  # New row for comments
                     # Questions header. Examples header: Example and Comment
                     header_list = ['Name', 'Date']
                     for x in row['items']:
-                        t = build_header(x)
+                        t = build_ape_header(x)
                         if t is not None:
-                            header_list.append(t)
+                            header_list += t
                             # Give medias spaces
                             if x['type'] == 2:  # Example
                                 if 'example' in x and 'medias' in x['example']:
-                                    header_list += [''] * (len(x['example']['medias']) - 1)
-                                    audio_names += [a['filename'] for a in x['example']['medias']]
-                                    audio_comments += [a.get('comment', '') for a in x['example']['medias']]  # Add comments
+                                    header_list += [''] * (len(x['example']['medias']) - 1) * 2
+                                    # audio_names += [a['filename'] for a in x['example']['medias']]
+                                    for a in x['example']['medias']:
+                                        audio_names.append(a['filename'])
+                                        audio_names.append('')
+                                    
+                                    # audio_comments += [a.get('comment', '') for a in x['example']['medias']]  # Add comments
                             else:
                                 audio_names.append('')
-                                audio_comments.append('')  # Add empty comment
+                                # audio_comments.append('')  # Add empty comment
                             # Check if it is timed
                             if check_is_timed(row):
                                 header_list.append('Time (s)')
                                 audio_names.append('')
-                                audio_comments.append('')  # Add empty comment
+                                # audio_comments.append('')  # Add empty comment
                     writer.writerow(audio_names)
-                    writer.writerow(audio_comments)  # Write comments row
+                    # writer.writerow(audio_comments)  # Write comments row
                     writer.writerow(header_list)
                     is_header_writen = True
 
@@ -112,7 +116,16 @@ def build_ape_row(item):
 
     elif item['type'] == 2:  # Example
         if 'example' in item and 'medias' in item['example']:
-            row_values = [(a['value'] or '') if 'value' in a else '' for a in item['example']['medias']]
+            # row_values = [(a['value'] or '') if 'value' in a else '' for a in item['example']['medias']]
+            # row_values += [(a['comment'] or '') if 'comment' in a else '' for a in item['example']['medias']]
+            row_values = []
+            for a in item['example']['medias']:
+                if 'value' in a :
+                    row_values.append(a['value'])
+                    row_values.append(a['comment'])
+                else :
+                    row_values.append('')
+                    row_values.append('')
             return row_values
         return ''
 
@@ -128,4 +141,25 @@ def build_ape_row(item):
             return [row_values[-1] if row_values else '']
         return ''
     else:
+        return None
+
+
+def build_ape_header(item, suffix=['rating','comment']):
+    """
+    Build the row of header for a CSV file
+    :param item: A test item, normally the first test item in responses of a test
+    :param suffix: This will be using in a test with rating bar
+    :return: CSV format string including double quota
+    """
+    if item['type'] == 1:  # Question
+        if 'questionControl' in item and 'question' in item['questionControl']:
+            return item['questionControl']['question'] or ''
+        else:
+            return ''
+    elif item['type'] == 2 or item['type'] == 3:  # Example with suffix or training
+        if 'example' in item:
+            return [item['title'] + ' ' + (s if item['type'] == 2 else '') for s in suffix]
+        else:
+            return ''
+    else:  # 0: Section header, 3 Training
         return None
