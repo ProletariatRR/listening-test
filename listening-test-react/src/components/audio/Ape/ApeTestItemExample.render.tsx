@@ -2,7 +2,6 @@ import {observer} from "mobx-react";
 import {AudioExampleModel, AudioFileModel} from "../../../shared/models/AudioTestModel";
 import React, {useEffect, useState, forwardRef} from "react";
 import Grid from "@material-ui/core/Grid";
-// import Container from "@material-ui/core/Container";
 import {SurveyControlRender} from "../../forms/SurveyControl.render";
 import {AudioButton, AudioController, useAudioPlayer} from "../../web-audio/AudiosPlayer";
 import {AudioLoading, useAllAudioRefsReady} from "../../web-audio/AudiosLoading";
@@ -10,9 +9,6 @@ import {useRandomization} from "../../../shared/tools/RandomizationTools";
 import {ratingAreaStyle} from "../../../shared/SharedStyles";
 import {AudioSectionLoopingController} from "../../web-audio/AudioSectionLoopingController";
 import {Box, Slider, styled } from "@material-ui/core";
-// import { trace } from "console";
-// import Button from '@material-ui/core/Button';
-// import { values } from "mobx";
 
 export const ApeTestItemExampleRender = observer(function (props: { example: AudioExampleModel, active?: boolean }) {
   const {example, active} = props;
@@ -48,9 +44,7 @@ export const ApeTestItemExampleRender = observer(function (props: { example: Aud
           style={{position: 'absolute',top: '60px',width: 'calc(100% - 16px)'
         }}>
           <HiddenSlider displayNumber={0} isActive={false} marks={marks}/>
-
         </Box>
-
         {randomAudios.map((v, i) => 
         <Box   
           style={{position: 'absolute',top: '60px',width: 'calc(100% - 16px)'
@@ -59,13 +53,11 @@ export const ApeTestItemExampleRender = observer(function (props: { example: Aud
             onPlay={handlePlay} onPause={handlePause}onEnded={i === 0 ? handleEnded : undefined}
             onTimeUpdate={i === 0 ? onTimeUpdate ? onTimeUpdate : handleTimeUpdate : undefined}>{i + 1}
           </ApeAudioButton>
-
         </Box>)}
       </Grid >
 
       {example.mediaRef && <Grid item xs={12} style={ratingAreaStyle}>
         <AudioButton ref={sampleRef} audio={example.mediaRef}  onPlay={handlePlay} onPause={handlePause}>Ref</AudioButton>
-
       </Grid>}
 
       <Grid item xs={12}>
@@ -105,18 +97,12 @@ const HiddenSlider = styled(Slider)(({ theme , isActive, displayNumber }: {
   '& .MuiSlider-rail': {
     visibility: displayNumber!==0?'hidden':'inherit',
   },
-  
-
   '& .MuiSlider-thumb': {
     backgroundColor: isActive ? theme.palette.primary.main : theme.palette.common.white,
     border: `1px solid ${theme.palette.primary.main}`,
-    // width: 6,
     height: 56,
     borderRadius: 3,
     transform: 'translateY(-38px)',
-    // display: 'none' ,
-    
-
     visibility: displayNumber===0?'hidden':'inherit',
     '&:before': {
       content: `"${displayNumber}"`,
@@ -149,10 +135,7 @@ const ApeAudioButton = observer(
     const [startX, setStartX] = useState(0);
     
     const handleChangeCommited = (event: React.ChangeEvent<{}>, value: number | number[]) => {
-      // audio.value = value.toString();  // 将滑块的值转换为字符串并赋值给 audio.value
-      // console.log("change: "+audio.value)
       if (Number(audio.value) === startX) {
-        // console.log("switch!")
         audio.isActive ? onPause() : onPlay(audio);
       }
     }

@@ -58,7 +58,7 @@ export const SurveyPage = observer(function ({ value, testUrl }: { value?: Basic
         },
         (reason) => setError(reason.response.data)
       );
-  }, [testUrl, id, value]);
+  }, [testUrl, id, value,history]);
   // If isIndividual, goto description
   useEffect(() => {
     if (questionnaire?.settings?.isIndividual) setOpenedPanel(-1);
@@ -109,6 +109,7 @@ export const SurveyPage = observer(function ({ value, testUrl }: { value?: Basic
   }
 
   function handleSubmit() {
+    // 提交数据的函数
     // Check all items' validation before submission. Only if the questionnaire is not individual
     if (!questionnaire.settings?.isIndividual)
       for (const item of randomItems) {
@@ -125,6 +126,7 @@ export const SurveyPage = observer(function ({ value, testUrl }: { value?: Basic
     setOpenedPanel(null);
     // Start request
     if (!value)
+      // console.log(toJS(questionnaire))
       Axios.post('/api/task/' + testUrl, toJS(questionnaire)).then((res) => {
         history.replace(`/task/finish?${res.data?.$oid}&${testUrl}`, true);
       });
