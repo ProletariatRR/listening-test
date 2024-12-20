@@ -121,8 +121,8 @@ def build_ape_row(item):
             row_values = []
             for a in item['example']['medias']:
                 if 'value' in a :
-                    row_values.append(a['value'])
-                    row_values.append(a['comment'])
+                    row_values.append((a['value'] or '') if 'value' in a else '')
+                    row_values.append((a['comment'] or '') if 'comment' in a else '')
                 else :
                     row_values.append('')
                     row_values.append('')
