@@ -153,7 +153,7 @@ def build_ape_header(item, suffix=['rating','comment']):
     """
     if item['type'] == 1:  # Question
         if 'questionControl' in item and 'question' in item['questionControl']:
-            return item['questionControl']['question'] or ''
+            return [item['questionControl']['question'] or '']
         else:
             return ''
     elif item['type'] == 2 or item['type'] == 3:  # Example with suffix or training
