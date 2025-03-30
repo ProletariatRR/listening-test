@@ -37,7 +37,7 @@ class ApeTestCsvDownload(BaseHandler):
 
         # Set build csv and write
         is_header_writen = False
-        with open(csv_filename, 'w', newline='') as f:
+        with open(csv_filename, 'w', newline='',encoding='utf8') as f:
             writer = csv.writer(f, quoting=csv.QUOTE_ALL)
             for row in data:
                 if not is_header_writen:
