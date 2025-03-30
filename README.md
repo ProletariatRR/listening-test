@@ -14,7 +14,7 @@ This project is deployed using Docker. Please follow the steps below to get it u
 
 ### Steps:
 1. Download the latest release:  
-   [listeningTest.zip](https://github.com/ProletariatRR/listening-test/releases/download/v0.1.2-beta/listeningTest.zip)
+   [listeningTest.zip](https://github.com/ProletariatRR/listening-test/releases)
    
 2. Extract the downloaded zip file.
 
