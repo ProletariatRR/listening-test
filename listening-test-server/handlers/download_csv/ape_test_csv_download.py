@@ -156,10 +156,12 @@ def build_ape_header(item, suffix=['rating','comment']):
             return [item['questionControl']['question'] or '']
         else:
             return ''
-    elif item['type'] == 2 or item['type'] == 3:  # Example with suffix or training
+    elif item['type'] == 2:  # Example with suffix or training
         if 'example' in item:
             return [item['title'] + ' ' + (s if item['type'] == 2 else '') for s in suffix]
         else:
             return ''
-    else:  # 0: Section header, 3 Training
+    elif item['type'] == 3:  # Training
+        return [item['title']]
+    else:  # 0: Section header
         return None

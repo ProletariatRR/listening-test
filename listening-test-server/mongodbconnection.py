@@ -25,7 +25,7 @@ class CJsonEncoder(json.JSONEncoder):
 class MongoDBConnection:
     def __init__(self):
         try:
-            self.client = pymongo.MongoClient(f"mongodb://root:1234@localhost:27017/")
+            self.client = pymongo.MongoClient(f"mongodb://localhost:27017/")
             self.db = self.client["golisten_db"]
         except():
             print(Exception)
